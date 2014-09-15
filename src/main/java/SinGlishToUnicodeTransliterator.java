@@ -1,42 +1,125 @@
-import org.apache.commons.lang3.StringUtils;
-import scala.Char;
-
-import java.util.ArrayList;
-
 /**
- * Created by bhagyasilva on 15/09/14.
+ * Portions courtesy of https://github.com/smaldeniya/SinglishToUnicode, a Java implementation of LTRL Javascript based Transliterator
  */
 public class SinGlishToUnicodeTransliterator extends Transliterator{
-    private static int nVowels;
-    private static String[] consonants = {"d","nndh","nng","Th","Dh","gh","Ch","ph","bh","sh","Sh","GN","KN","Lu","dh","ch","kh","th","t","k","d","n","p","b","m","\\u005C","+","y","Y","y","j","l","v","w","s","h","N","L","K","G","T","D","P","B","f","q","g", "r"};
-    private static char[] consonantsUni = {'ඬ','ඳ','ඟ','ථ','ධ','ඝ','ඡ','ඵ','භ','ශ','ෂ','ඥ','ඤ','C','ද','ච','ඛ','ත', 'ට','ක','ඩ','න','ප','බ','ම','A','B','ය','ය','ය','ජ','ල','ව','ව','ස','හ','ණ','ළ','ඛ','ඝ','ඨ','ඪ','ඵ','ඹ','ෆ','ඣ','ග', 'ර'};
-    private static String[]  vowels ={"oo","o\\)","oe","aa","a\\)","Aa","A\\)","ae","ii","i\\)","ie","ee","ea","e\\)","ei","uu","u\\)","au","/\\a","a","A","i","e","u","o","I"};
-    private static char[] vowelsUni = {'ඌ','ඕ','ඕ','ආ','ආ','ඈ','ඈ','ඈ','ඊ','ඊ','ඊ','ඊ','ඒ','ඒ','ඒ','ඌ','ඌ','ඖ','ඇ','අ','ඇ','ඉ','එ','උ','ඔ','ඓ'  };
-    private static char[] vowelModifiersUni = {'ූ','ෝ','ෝ','ා','ා','ෑ','ෑ','ෑ','ී','ී','ී','ී','ේ','ේ','ේ','ූ','ූ','ෞ','ැ','\u0000','ැ','ි','ෙ','ු','ො','ෛ'};
-    private static String[] specialConsonants = {    "/\\\\n/g","/\\\\h/g","/\\\\N/g","/\\\\R/g","/R/g","/\\\\r/g"};
-    private static char[]  specialConsonantsUni = {'ං','ඃ','ඞ','ඍ', 'X', 'Y'}
-            ; private static char[] specialCharUni = {'ෲ','ෘ'};
-    private static String[] specialChar = {"ruu", "ru"};
 
-    {
-        nVowels=26;
+    static final int nVowels = 26;
+    static final String[] consonants = new String[46];
+    static final String[] consonantsUni = new String[46];
+    static final String[] vowels = new String[26];
+    static final String[] vowelsUni = new String[26];
+    static final String[] vowelModifiersUni = new String[26];
+    static final String[] specialConsonants = new String[6];
+    static final String[] specialConsonantsUni = new String[6];
+    static final String[] specialCharUni = new String[2];
+    static final String[] specialChar = new String[2];
+
+
+    static {
+        vowelsUni[0]="ඌ";    vowels[0]="oo";    vowelModifiersUni[0]="ූ";
+        vowelsUni[1]="ඕ";    vowels[1]="o\\)";    vowelModifiersUni[1]="ෝ";
+        vowelsUni[2]="ඕ";    vowels[2]="oe";    vowelModifiersUni[2]="ෝ";
+        vowelsUni[3]="ආ";    vowels[3]="aa";    vowelModifiersUni[3]="ා";
+        vowelsUni[4]="ආ";    vowels[4]="a\\)";    vowelModifiersUni[4]="ා";
+        vowelsUni[5]="ඈ";    vowels[5]="Aa";    vowelModifiersUni[5]="ෑ";
+        vowelsUni[6]="ඈ";    vowels[6]="A\\)";    vowelModifiersUni[6]="ෑ";
+        vowelsUni[7]="ඈ";    vowels[7]="ae";    vowelModifiersUni[7]="ෑ";
+        vowelsUni[8]="ඊ";    vowels[8]="ii";    vowelModifiersUni[8]="ී";
+        vowelsUni[9]="ඊ";    vowels[9]="i\\)";    vowelModifiersUni[9]="ී";
+        vowelsUni[10]="ඊ";    vowels[10]="ie";    vowelModifiersUni[10]="ී";
+        vowelsUni[11]="ඊ";    vowels[11]="ee";    vowelModifiersUni[11]="ී";
+        vowelsUni[12]="ඒ";    vowels[12]="ea";    vowelModifiersUni[12]="ේ";
+        vowelsUni[13]="ඒ";    vowels[13]="e\\)";    vowelModifiersUni[13]="ේ";
+        vowelsUni[14]="ඒ";    vowels[14]="ei";    vowelModifiersUni[14]="ේ";
+        vowelsUni[15]="ඌ";    vowels[15]="uu";    vowelModifiersUni[15]="ූ";
+        vowelsUni[16]="ඌ";    vowels[16]="u\\)";    vowelModifiersUni[16]="ූ";
+        vowelsUni[17]="ඖ";    vowels[17]="au";    vowelModifiersUni[17]="ෞ";
+        vowelsUni[18]="ඇ";    vowels[18]="\\a";    vowelModifiersUni[18]="ැ";
+
+        vowelsUni[19]="අ";    vowels[19]="a";    vowelModifiersUni[19]="";
+        vowelsUni[20]="ඇ";    vowels[20]="A";    vowelModifiersUni[20]="ැ";
+        vowelsUni[21]="ඉ";    vowels[21]="i";    vowelModifiersUni[21]="ි";
+        vowelsUni[22]="එ";    vowels[22]="e";    vowelModifiersUni[22]="ෙ";
+        vowelsUni[23]="උ";    vowels[23]="u";    vowelModifiersUni[23]="ු";
+        vowelsUni[24]="ඔ";    vowels[24]="o";    vowelModifiersUni[24]="ො";
+        vowelsUni[25]="ඓ";    vowels[25]="I";    vowelModifiersUni[25]="ෛ";
+
+        specialConsonantsUni[0]="ං"; specialConsonants[0]="\\n";
+        specialConsonantsUni[1]="ඃ"; specialConsonants[1]="\\h";
+        specialConsonantsUni[2]="ඞ"; specialConsonants[2]="\\N";
+        specialConsonantsUni[3]="ඍ"; specialConsonants[3]="\\R";
+        //special characher Repaya
+        specialConsonantsUni[4]="ර්"+"\u200D"; specialConsonants[4]="R";
+        specialConsonantsUni[5]="ර්"+"\u200D"; specialConsonants[5]="\\r";
+
+        consonantsUni[0]="ඬ"; consonants[0]="nnd";
+        consonantsUni[1]="ඳ"; consonants[1]="nndh";
+        consonantsUni[2]="ඟ"; consonants[2]="nng";
+        consonantsUni[3]="ථ"; consonants[3]="Th";
+        consonantsUni[4]="ධ"; consonants[4]="Dh";
+        consonantsUni[5]="ඝ"; consonants[5]="gh";
+        consonantsUni[6]="ඡ"; consonants[6]="Ch";
+        consonantsUni[7]="ඵ"; consonants[7]="ph";
+        consonantsUni[8]="භ"; consonants[8]="bh";
+        consonantsUni[9]="ශ"; consonants[9]="sh";
+        consonantsUni[10]="ෂ"; consonants[10]="Sh";
+        consonantsUni[11]="ඥ"; consonants[11]="GN";
+        consonantsUni[12]="ඤ"; consonants[12]="KN";
+        consonantsUni[13]="ළු"; consonants[13]="Lu";
+        consonantsUni[14]="ද"; consonants[14]="dh";
+        consonantsUni[15]="ච"; consonants[15]="ch";
+        consonantsUni[16]="ඛ"; consonants[16]="kh";
+        consonantsUni[17]="ත"; consonants[17]="th";
+
+        consonantsUni[18]="ට"; consonants[18]="t";
+        consonantsUni[19]="ක"; consonants[19]="k";
+        consonantsUni[20]="ඩ"; consonants[20]="d";
+        consonantsUni[21]="න"; consonants[21]="n";
+        consonantsUni[22]="ප"; consonants[22]="p";
+        consonantsUni[23]="බ"; consonants[23]="b";
+        consonantsUni[24]="ම"; consonants[24]="m";
+        consonantsUni[25]="‍ය"; consonants[25]="\\u005C" + "y";
+        consonantsUni[26]="‍ය"; consonants[26]="Y";
+        consonantsUni[27]="ය"; consonants[27]="y";
+        consonantsUni[28]="ජ"; consonants[28]="j";
+        consonantsUni[29]="ල"; consonants[29]="l";
+        consonantsUni[30]="ව"; consonants[30]="v";
+        consonantsUni[31]="ව"; consonants[31]="w";
+        consonantsUni[32]="ස"; consonants[32]="s";
+        consonantsUni[33]="හ"; consonants[33]="h";
+        consonantsUni[34]="ණ"; consonants[34]="N";
+        consonantsUni[35]="ළ"; consonants[35]="L";
+        consonantsUni[36]="ඛ"; consonants[36]="K";
+        consonantsUni[37]="ඝ"; consonants[37]="G";
+        consonantsUni[38]="ඨ"; consonants[38]="T";
+        consonantsUni[39]="ඪ"; consonants[39]="D";
+        consonantsUni[40]="ඵ"; consonants[40]="P";
+        consonantsUni[41]="ඹ"; consonants[41]="B";
+        consonantsUni[42]="ෆ"; consonants[42]="f";
+        consonantsUni[43]="ඣ"; consonants[43]="q";
+        consonantsUni[44]="ග"; consonants[44]="g";
+        //last because we need to ommit this in dealing with Rakaransha
+        consonantsUni[45]="ර"; consonants[45]="r";
+
+        specialCharUni[0]="ෲ"; specialChar[0]="ruu";
+        specialCharUni[1]="ෘ"; specialChar[1]="ru";
+        //specialCharUni[2]="්‍ර"; specialChar[2]="ra";
+
     }
 
-    public static String transliterate(String text){
-        String s,r,v;
+    public static String transliterate(String singlishWord) {
+        String s,v;
 
-
-
+        //special consonents
         for (int i=0; i<specialConsonants.length; i++){
-            text = StringUtils.replace(text, specialConsonants[i],Character.toString(specialConsonantsUni[i]));
+            singlishWord = singlishWord.replace(specialConsonants[i], specialConsonantsUni[i]);
         }
         //consonents + special Chars
         for (int i=0; i<specialCharUni.length; i++){
             for (int j=0;j<consonants.length;j++){
                 s = consonants[j] + specialChar[i];
-                v = ""+ ( consonantsUni[j] + specialCharUni[i]);
-                r = s;
-                text = StringUtils.replace(text, r, v);
+                v = consonantsUni[j] + specialCharUni[i];
+                singlishWord = singlishWord.replaceAll(s, v);
             }
         }
         //consonants + Rakaransha + vowel modifiers
@@ -44,40 +127,31 @@ public class SinGlishToUnicodeTransliterator extends Transliterator{
             for (int i=0;i<vowels.length;i++){
                 s = consonants[j] + "r" + vowels[i];
                 v = consonantsUni[j] + "්‍ර" + vowelModifiersUni[i];
-                r = s;
-                text = StringUtils.replace(text, r, v);
+                singlishWord = singlishWord.replaceAll(s, v);
             }
             s = consonants[j] + "r";
             v = consonantsUni[j] + "්‍ර";
-            r = s;
-            text = StringUtils.replace(text, r, v);
+            singlishWord = singlishWord.replaceAll(s, v);
         }
         //consonents + vowel modifiers
         for (int i=0;i<consonants.length;i++){
             for (int j=0;j<nVowels;j++){
                 s = consonants[i]+vowels[j];
-                v = "" + (consonantsUni[i] + vowelModifiersUni[j]);
-                r = s;
-                text = StringUtils.replace(text, r, v);
+                v = consonantsUni[i] + vowelModifiersUni[j];
+                singlishWord = singlishWord.replaceAll(s, v);
             }
         }
 
         //consonents + HAL
         for (int i=0; i<consonants.length; i++){
-            r = consonants[i];
-            text = StringUtils.replace(text, r, consonantsUni[i]+"්");
+            singlishWord = singlishWord.replaceAll(consonants[i], consonantsUni[i]+"්");
         }
 
         //vowels
         for (int i=0; i<vowels.length; i++){
-            r = vowels[i];
-            text = StringUtils.replace(text, r, _s(vowelsUni[i]));
+            singlishWord = singlishWord.replace(vowels[i], vowelsUni[i]);
         }
 
-        return text;
+        return singlishWord;
     }
-
-    static String _s(char c){
-        return Character.toString(c);
-    }
-};
+}

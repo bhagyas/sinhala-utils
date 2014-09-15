@@ -8,9 +8,9 @@ class Transliterator {
 
 object TestTransliteration {
   def main(args: Array[String]): Unit ={
-    println(SinGlishToUnicodeTransliterator.transliterate("amma"))
-    println(SinGlishToUnicodeTransliterator.transliterate("thaththa"))
+    println(SinGlishToUnicodeTransliterator.transliterate("ammaa"))
+    println(SinGlishToUnicodeTransliterator.transliterate("thaaththaa"))
     println(SinGlishToUnicodeTransliterator.transliterate("puthaa"))
-    println(SinGlishToUnicodeTransliterator.transliterate("duwa"))
+    println(SinGlishToUnicodeTransliterator.transliterate("dhuwa"))
   }
 }
