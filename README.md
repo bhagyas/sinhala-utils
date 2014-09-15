@@ -8,8 +8,8 @@ Run `mvn compile`
 Please feel free to fork and contribute as needed.
 
 ##History
-2014-Sep-13 : Added basic Singlish to Unicode Transliteration support
-2014-Sep-12 : Initial release with DLToUnicode, FMToUnicode, KaputaToUnicode, ThibasToUnicode, AmaleeToUnicode, UnicodeToDL, UnicodeToTipitaka support
+- 2014-Sep-13 : Added basic Singlish to Unicode Transliteration support
+- 2014-Sep-12 : Initial release with DLToUnicode, FMToUnicode, KaputaToUnicode, ThibasToUnicode, AmaleeToUnicode, UnicodeToDL, UnicodeToTipitaka support
 
 
 ##References
