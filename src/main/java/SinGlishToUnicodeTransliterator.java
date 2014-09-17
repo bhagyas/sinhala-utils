@@ -107,7 +107,7 @@ public class SinGlishToUnicodeTransliterator extends Transliterator{
 
     }
 
-    public static String transliterate(String singlishWord) {
+    public String transliterate(String singlishWord) {
         String s,v;
 
         //special consonents
@@ -153,5 +153,14 @@ public class SinGlishToUnicodeTransliterator extends Transliterator{
         }
 
         return singlishWord;
+    }
+
+    static SinGlishToUnicodeTransliterator transliterator;
+
+    public  static SinGlishToUnicodeTransliterator getInstance(){
+        if(transliterator == null){
+            transliterator = new SinGlishToUnicodeTransliterator();
+        }
+        return transliterator;
     }
 }
